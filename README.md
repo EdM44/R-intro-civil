@@ -1,1 +1,1 @@
-This repository hosts the site for a brief [Introcution to R for Civil Engineers](https://github.com/EdM44/R-intro-civil) document.
+This repository hosts the site for a brief [Introduction to R for Civil Engineers](https://edm44.github.io/R-intro-civil/) document.
