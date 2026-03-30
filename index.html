@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Ed Maurer, Santa Clara University" />
+
+<meta name="date" content="2026-01-22" />
+
+<title>Starting with R and RStudio - A brief introduction for civil engineering courses</title>
+
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R for Civil Engineers</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Starting with R and RStudio - A brief
+introduction for civil engineering courses</h1>
+<h4 class="author"><a href="https://www.engr.scu.edu/~emaurer/">Ed
+Maurer, Santa Clara University</a></h4>
+<h4 class="date">22 January 2026</h4>
+
+</div>
+
+
+<p>This tutorial uses two input data files for water properties and
+atmospheric properties: <strong>water_properties_SI.csv</strong> and
+<strong>standard_atmosphere_SI.csv</strong>. If not provided, they can
+be found <a
+href="https://github.com/EdM44/classes/tree/master/R_exercises/01.Intro_tutorial">here</a>.
+They can be downloaded and copied into a new directory (folder) you
+create for this exercise or can be read in directly from github, which
+is demonstrated below. In general, each R project should have its own
+directory, which is referred to as a <strong>working directory</strong>
+– this is where R will look for input files and where it will write any
+output. Setting a working directory is <a href="#open-project">described
+below</a>.</p>
+<p>The first six pages of this introduction draw heavily from two
+excellent sources: Lovelace and Cheshire (2014) and Cleveland (2018).
+This is only a short introduction to get you started – many more
+complete guides are available, such as this <a
+href="https://discdown.org/rprogramming/">Introduction to Programming in
+R</a>. Applications of using R in hydraulics and water resources
+engineering are included in the aptly-named <a
+href="https://www.engr.scu.edu/~emaurer/hydr-watres-book/">Hydraulics
+and Water Resources: Examples Using R</a>.</p>
+<div id="introduction" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p>R is an open-source scripting language. Open-source means anyone can
+contribute to the development of the code, and many thousands of people
+have. It also means it is free to use, so in addition to being installed
+on the engineering computer system, you can install it on your personal
+computer (using any operating system). As you will see, it looks very
+much like Matlab in many ways, and can do almost anything you can
+imagine. It is widely used in academic and professional settings around
+the world.</p>
+<p>It is a scripting language, meaning you execute commands and the
+output can be used in subsequent commands. What follows is a short
+run-through of an exercise to illustrate some of the capabilities of R
+using RStudio. RStudio is an interface for using R that is also free and
+makes it much more accessible.</p>
+<div id="installing-or-accessing-r-and-rstudio" class="section level2"
+number="1.1">
+<h2><span class="header-section-number">1.1</span> Installing or
+accessing R and RStudio</h2>
+<p>If you are installing these on your own computer,
+<strong>first</strong> install R (from <a
+href="https://cran.r-project.org/"
+class="uri">https://cran.r-project.org/</a>) <strong>then</strong>
+install RStudio (<a
+href="https://posit.co/products/open-source/rstudio/"
+class="uri">https://posit.co/products/open-source/rstudio/</a>). As an
+alternative, you can also use R and RStudio in a browser by using <a
+href="https://posit.cloud/">posit.cloud</a>. Create a user profile to
+access RStudio and R with (as of Fall 2025) up to 25 projects and 25
+hours/month of compute time for free.</p>
+<p>The R and RStudio software are also available on <a
+href="https://www.scu.edu/engineering/labs--research/labs/engineering-computing-center/resources/">ECC</a>
+computers. If using it there, you will need to watch a few details as
+noted below. RStudio does not always work well with networked file
+locations.</p>
+</div>
+<div id="how-and-why-to-write-r-code" class="section level2"
+number="1.2">
+<h2><span class="header-section-number">1.2</span> How and why to write
+R code</h2>
+<p>Before continuing, watch a Youtube video describing R and RStudio,
+like <a href="https://youtu.be/5YmcEYTSN7k">this one</a>. After watching
+that, you’ll be familiar with the interface and basic functions. There
+are many other online references, most visibly <a
+href="https://education.rstudio.com/learn/beginner/">RStudio’s beginner
+page</a> and <a href="https://stackoverflow.com">stackoverflow</a>.
+Google searches for R techniques often land at a stackoverflow exchange
+where problems have been solved. There is also an excellent <a
+href="https://rpubs.com/wsundstrom/home">introduction to R written by
+Bill Sundstrom and Michael Kevane of the SCU Economics
+Department</a>.</p>
+<p>Remember that, as with any programming language, there are often many
+ways to produce the same output in R. The code presented in this
+document is not the only way to do things. You should play with the code
+to gain a deeper understanding of R. Do not worry, you cannot ‘break’
+anything using R and all the input data can be re-loaded if things do go
+wrong.</p>
+<p>Table 1 shows water properties from the
+<em>water_properties_SI.csv</em> file, similar to standard reference
+texts. <img src="images/Picture1.png"
+alt="Table 1 - Water properties, from MWH’s Water Treatment: Principles and Design, Third Edition, Wiley &amp; Sons" /></p>
+<p>Now suppose you need to estimate the density of water at 44 C. The
+two pairs of temperature and density that surround 44<span
+class="math inline">\(^\circ\)</span>C are (40<span
+class="math inline">\(^\circ\)</span>C; 992.2 kg=m<span
+class="math inline">\(^3\)</span>) and (50<span
+class="math inline">\(^\circ\)</span>C; 988.0 kg/m<span
+class="math inline">\(^3\)</span>). So, to estimate the unknown density
+using linear interpolation you can apply the following: <span
+class="math display">\[\rho&#39;=992.2+(988.0-992.2)\frac{(44-40)}{(50-40)}=990.52\]</span></p>
+<p>This may need to be done many times in the course of hydraulics
+calculations, so automating it with a script will be very useful. A
+script will also allow the clear outlining of steps used to do any
+calculations, something necessary for anyone following your work. What
+follows is a short exploration of using R and RStudio to produce
+technical calculations in a professional format.</p>
+<p>This document was written entirely in R, using <a
+href="https://rmarkdown.rstudio.com/">R Markdown</a>. R Markdown is an
+extremely flexible and powerful was to organize professional work. While
+this tutorial only introduces basic R scripting, a lot more can be done
+to produce very polished work.</p>
+</div>
+</div>
+<div id="open-project" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Open a new project in
+RStudio and testing commands</h1>
+<p><strong>→ IMPORTANT!</strong> If you are using R on a university lab
+computer (or other system where you do not have administrative
+privileges), follow the steps in <strong>Appendix 1</strong> prior to
+continuing.</p>
+<p>Open RStudio, and start the new project in a new directory (this is a
+good practice – <strong>different projects should always be in different
+folders!).</strong></p>
+<p><img src="images/Picture2.png" /></p>
+<p>Next create the new directory name (which becomes the project name),
+<strong>ensuring the directory path begins with a letter (like C:, Z:,
+etc.)</strong>, not a network location (starting with something like
+\):</p>
+<p><img src="images/Picture3.png" /></p>
+<p>Now you’ll see the blank RStudio interface you’ll recognize from the
+video. Notice where the current <strong>working directory</strong> is
+shown on the RStudio interface.</p>
+<p><img src="images/Picture4.png" /></p>
+<p>You can use the ‘Session’ menu to change the <strong>working
+directory</strong> if you need to (remembering that this is where R
+looks for input and where it writes output):</p>
+<p><img src="images/Picture5.png" /></p>
+<p>Now type a couple of lines of code into <strong>the
+console</strong>:</p>
+<pre class="r"><code>#test commands
+x &lt;- 1
+print(x)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<p>R commands are all shaded in this document and output of those
+commands follows, which is done automatically by R Markdown. Commands
+can be copied and pasted into R Studio to reproduce everything that
+follows. Sometimes symbols like “&lt;-“ or quotation marks need to be
+deleted and retyped, if they don’t paste properly.</p>
+<p>Notice the &lt;- is used instead of = to assign values to a variable
+in typical R code (either &lt;- or = will work, though). Lines starting
+with <strong>#</strong> are comments to make the code understandable,
+but are ignored by R. Adding comments to your code is essential; make
+these meaningful so you remember what the code is doing when you revisit
+it at a later date. To create good code (for example your R script) it
+is important to organize and documentation it so others can follow what
+you did, and so you can look at it in the future and remember what you
+did.</p>
+<div
+id="attributes-of-a-well-structured-and-documented-script-adapted-from-software-carpentry"
+class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Attributes of a well
+structured and documented script <a
+href="http://swcarpentry.github.io/r-novice-inflammation/06-best-practices-R.html">(adapted
+from Software Carpentry)</a>:</h2>
+<ul>
+<li>At the beginning include a description of what the script does.</li>
+<li>Load the required packages (using <code>library()</code>) and
+describe in a short comment what each is for.</li>
+<li>Break your code into logical pieces, separated by blank lines, and
+include comments at the start of each.</li>
+<li>Never use <code>install.packages</code> in a script, since packages
+only need to be installed once.</li>
+<li>If you have functions or constants defined, place them near the
+beginning of the script.</li>
+<li>Use consistent variable names and code style.</li>
+<li>Keep all of the source files for a project in one directory and use
+relative paths to access them.</li>
+<li>If you repeat commands more than twice, use a loop or an apply
+command instead.</li>
+<li>Always start with a clean environment instead of saving the
+workspace. Good practice is to go to Tools|Global Options and set
+this:</li>
+</ul>
+<p><img src="images/Picture_Rdata.png" /></p>
+<p><strong>If you will hand in your code and what it produces as a
+deliverable product, see Appendix 2</strong>.</p>
+<p>If you require help on any function, use the help command,
+e.g. <strong>help(plot)</strong> or the help through RStudio. Because R
+users love being concise, this can also be written as
+<strong>?plot</strong>. Feel free to use it at any point you would like
+more detail on a specific function (although R’s help files are famously
+cryptic for the un-initiated). Help on more general terms can be found
+using the ?? symbol. To test this, try typing
+<strong>??regression</strong>.</p>
+</div>
+</div>
+<div id="starting-an-r-script" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Starting an R
+script</h1>
+<p>Click the History tab in the upper right, highlight a couple of the
+commands you just entered, and press “To Source.” <img
+src="images/Picture6.png" /></p>
+<p>The commands will be entered in the upper left panel, which is where
+you’ll create your R script.A new R script can also be opened with
+File→New File→R Script. <img src="images/Picture7.png" /></p>
+<p>Click the save icon for the new script and rename it from Untitled to
+something like “interp.R” (<strong>File Names for R scripts always end
+with “.R”</strong>). The new name appears on the tab.</p>
+<p>Remember any script should begin with a header and then load any
+necessary libraries at the top of the script, as described above in
+Section 2.1. A simple way to be sure you don’t forget to do this is to
+use RStudio’s snippets. Go to <code>Tools</code> |
+<code>Global Options</code> | <code>Code</code>, ensure Snippets are
+enabled (checked) and click Edit Snippets. (You can also go straight
+there by <code>Tools</code> | <code>Edit Code Snippets</code>).</p>
+<p><img src="images/snippet1.png" /></p>
+<p>At the bottom of that window, add the following snippet (each line
+below the snippet line should begin with a tab – if you copy from here
+it might not paste in that way):</p>
+<pre><code>snippet header
+  ## ---------------------------
+  ##
+  ## Script name: 
+  ## Purpose of script:
+  ## Author: 
+  ## Date Created: 2024-04-10
+  ##
+  ## ---------------------------</code></pre>
+<p>Save it to apply the changes. At the top of your script type
+<code>header</code> and click the <em>Tab</em> key and a template is
+added to the top of your script.</p>
+<p><img src="images/snippet2.png" /></p>
+<p>You can customize the snippet how you like, including using a header
+like in Appendix 2, which works nicely when compiled.</p>
+<p>Now return to building a script.</p>
+<p><img src="images/Picture8.png" /></p>
+<p>As you add content to a script you can highlight any lines and click
+“<strong>Run</strong>” to execute them, which is a good way to try out
+your code. If you click “<strong>Source</strong>” it runs all of the
+commands in the R script. Try that out and see what happens with the two
+lines of code shown. Now delete those two lines of code as they aren’t
+very useful.</p>
+<p>Returning to our example, the first thing to do for interpolating
+values is to get the data from the table into R. That could be done by
+typing them in like this (notice the “c” in front tells R to concatenate
+the values into a list):</p>
+<pre class="r"><code>temps &lt;- c(0,5,10,15,20,25,30,40,50,60,70,80,90,100)
+densities &lt;- c(999.8,1000,999.7,999.1,998.2,997,995.7,992.2,988,983.2,977.8,971.8,965.3,958.4)</code></pre>
+<p>You can copy and paste these into your R script, highlight them and
+click <strong>Run</strong> to create these variables. You can look at
+these in the Environment tab on the upper right panel: <img
+src="images/Picture9.png" /></p>
+<p>Now any one of these can be accessed by an index number (in R the
+first item in a list is numbered 1, as you might expect):</p>
+<pre class="r"><code>densities[2]</code></pre>
+<pre><code>## [1] 1000</code></pre>
+<p>You can make these look like a table by binding them together as
+columns with cbind, and to be sure they have the same number of
+elements:</p>
+<pre class="r"><code>cbind(temps,densities)</code></pre>
+<pre><code>##       temps densities
+##  [1,]     0     999.8
+##  [2,]     5    1000.0
+##  [3,]    10     999.7
+##  [4,]    15     999.1
+##  [5,]    20     998.2
+##  [6,]    25     997.0
+##  [7,]    30     995.7
+##  [8,]    40     992.2
+##  [9,]    50     988.0
+## [10,]    60     983.2
+## [11,]    70     977.8
+## [12,]    80     971.8
+## [13,]    90     965.3
+## [14,]   100     958.4</code></pre>
+</div>
+<div id="making-a-plot" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Making a plot</h1>
+<p>How does density vary with temperature? Plot it to see, by executing
+this command:</p>
+<pre class="r"><code>plot(temps, densities, xlab=&quot;Temperature, C&quot;, ylab=&quot;Density, kg/m3&quot;, type=&quot;l&quot;)</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" width="60%" style="display: block; margin: auto;" /></p>
+<p>The plot will appear in the lower right panel of R Studio, on the
+<strong>Plots</strong> tab.</p>
+<p>That’s helpful, but not a plot that can be turned in as a
+professional product. To plot the degree symbol, superscripts, and other
+special characters is easy (for example, try a google search of “R plot
+degree symbol”).</p>
+<p>One way to create better annotation uses <em>expression</em>. Also, a
+caption is important for a professional plot. In base R it be added
+using <code>sub</code> in the plot command, or adding a
+<code>title</code> command:</p>
+<pre class="r"><code>xlbl &lt;- expression(&quot;Temperature, &quot; (degree*C))
+ylbl &lt;- expression(&quot;Density,&quot; ~rho~ (kg/m^{3}))
+plot(temps, densities, xlab=xlbl, ylab=ylbl, type=&quot;l&quot;) 
+# font.sub = 2 makes the caption bold, adj = 0 left justifies it (adj = 0.5 is centered)
+title(sub = &quot;Figure 1: This one has a caption&quot;, font.sub = 2, adj = 0) 
+grid() # add grid lines</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" width="60%" style="display: block; margin: auto;" /></p>
+<p>Try variations of that to see what happens. Greek letters are simply
+spelled out; superscripts are preceded by <strong>^</strong>, subscripts
+are enclosed by <strong>[]</strong>, the tilde (<strong>~</strong>) adds
+a space. You can of course change axis limits, fonts, colors, etc. Try
+adding gray gridlines with <strong>grid()</strong> to make the plot more
+readable.</p>
+<p>When you have a final plot you want to include in another report
+(importing into Word, for example), you can export it from RStudio using
+the Export button, which allows you to save a plot as a JPG, PNG, PDF,
+or any of many other options.</p>
+<p><img src="images/Picture10.png" /></p>
+</div>
+<div id="writing-a-function-optional" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Writing a function
+(optional)</h1>
+<p>Rather than write a single equation for interpolation, it is far
+better to write it as a function. In this case it can look like the
+following (again, this is adapted from the T.G. Cleveland
+reference):</p>
+<pre class="r"><code>#The interpolation function
+interp_value &lt;- function (x,xvector,yvector) {
+  xvlength &lt;- length (xvector)
+  yvlength &lt;- length (yvector)
+  for (i in 1:( xvlength -1) ){
+    if( (x &gt;= xvector [i]) &amp; (x &lt;= xvector [i +1]) ){
+      result = yvector [i]+( yvector [i+1] - yvector [i]) *(x - xvector [i])/(xvector [i+1] - xvector [i])
+    return (result)
+    }
+  }
+}</code></pre>
+<p>The function can then be called with a command such as the
+following:</p>
+<pre class="r"><code>dens &lt;- interp_value(44,temps,densities)
+print(dens)</code></pre>
+<pre><code>## [1] 990.52</code></pre>
+<p>What would happen if your temperature and density vectors had
+different numbers of values in them? What if you put in a value outside
+the range of temperatures in the xvector? These sorts of cases should be
+caught by a good script, so a final R script would need to include quite
+a few <em>if</em> statements to anticipate these situations. Writing
+functions is essential to creating scripts that are more efficient and
+easier to read and understand.</p>
+</div>
+<div id="reading-in-data-from-a-csv-file-or-a-xlsx-spreadsheet"
+class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Reading in data from a
+csv file or a xlsx spreadsheet</h1>
+<p>Rather than type in the table values as was done above, usually
+you’ll be able to import a csv (comma delimited) file (used in the
+example below), or from Excel files using the <strong>readxl</strong>
+package.</p>
+<p>If saved into your working directory, files can be read in directly.
+R can also read files stored remotely, such as on github. The file
+<strong>water_properties_SI.csv</strong> is a csv file of the water
+properties table and looks like this:</p>
+<p><img src="images/Picture11.png" /></p>
+<p>This can be read directly into R (in the statement below
+<strong>head=TRUE</strong> means the first row is a header with the
+names of each column; <strong>sep=”,”</strong> tells R commas are used
+to separate columns):</p>
+<pre class="r"><code>watertable &lt;- read.csv(&quot;https://raw.githubusercontent.com/EdM44/classes/refs/heads/master/R_exercises/01.Intro_tutorial/water_properties_SI.csv&quot;,head=TRUE,sep=&quot;,&quot;)</code></pre>
+<p>Notice it is stored in a different format than a variable – it is a
+<strong>data frame</strong>, but basically think of it as rows and
+columns with column names. Click on the name of the new table in the
+Environment to see what it looks like in R:</p>
+<p><img src="images/Picture12.png" /></p>
+<p>You can access each column by appending a <strong>$</strong> and the
+column name to the table name:</p>
+<pre class="r"><code>watertable$density</code></pre>
+<pre><code>##  [1]  999.8 1000.0  999.7  999.1  998.2  997.0  995.7  992.2  988.0  983.2
+## [11]  977.8  971.8  965.3  958.4</code></pre>
+<p>returns the densities. Likewise you can pick out one value by
+appending an index value like [3]. One advantage of data frames is that
+you can choose a value from one column using a condition of another. To
+get the density associated with a temperature of 40<span
+class="math inline">\(^\circ\)</span>C:</p>
+<pre class="r"><code>watertable[watertable$temp_c == 40,]$density</code></pre>
+<pre><code>## [1] 992.2</code></pre>
+<p>You can play around with different formulations of these commands to
+see how you could rewrite the interpolation function to work with any
+water property, not just density.</p>
+<p>Of course, we’re not the first to try interpolating values, which
+means there are packages to do this. The base R installation includes
+the <em>approx</em> function (which returns two values: appending $x
+returns the input lookup value 44.0, appending $y gives the interpolated
+density value 990.52):</p>
+<pre class="r"><code>approx(watertable$temp_c,watertable$density,44.0)$y</code></pre>
+<pre><code>## [1] 990.52</code></pre>
+<p>What if you wanted to look up 10 values? You can do them all at once,
+skipping the <em>for</em> loop.</p>
+<pre class="r"><code>ten_temps &lt;- c(5,10,15,20,25,30,35,40,45,50)</code></pre>
+<p>or more simply:</p>
+<pre class="r"><code>ten_temps &lt;- seq(from=5, to=50, by=5)</code></pre>
+<p>then the densities for all 10 values can be found with one
+command.</p>
+<pre class="r"><code>ten_densities &lt;- approx(watertable$temp_c,watertable$density,ten_temps)$y</code></pre>
+</div>
+<div id="variable2" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> Creating new values
+based on other variables</h1>
+<p>Here we’ll start with reading in a file of the standard atmosphere
+properties, similarly to what was done earlier:</p>
+<pre class="r"><code>stdatmosphere &lt;- read.csv(&quot;https://raw.githubusercontent.com/EdM44/classes/refs/heads/master/R_exercises/01.Intro_tutorial/standard_atmosphere_SI.csv&quot;,head=TRUE,sep=&quot;,&quot;)</code></pre>
+<p>The elevations (or altitude) and atmospheric pressures from the table
+can be placed into new arrays (this is not necessary, but is
+demonstrates how this is done):</p>
+<pre class="r"><code>elevs &lt;- stdatmosphere$altitude_m
+atmos_p &lt;- stdatmosphere$pressure_kPa</code></pre>
+<p>While pressure is already in the standard atmosphere table, as an
+example we will calculate new estimates of the air pressure using the
+approximation equation (Allen et al., FAO Irrigation and Drainage Paper.
+No. 56, 1998) where P is in kPa, Z is in meters: <span
+class="math display">\[P=101.3\left(\frac{293-0.0065Z}{293}\right)^{5.26}\]</span></p>
+<p>To create a new estimated pressure for each elevation, you could
+build a <em>for</em> loop and run it for each elevation to estimate the
+pressure.</p>
+<pre class="r"><code>pressure_estimated &lt;- c()      # create an empty vector to store each result
+for (elev in elevs) {
+  p_est &lt;- 101.3*((293.0 - 0.0065*elev)/293.0)^5.26
+  pressure_estimated &lt;- c(pressure_estimated, p_est) # add new result to vector
+}</code></pre>
+<p>As long as the function is vectorized (meaning it can accept a vector
+as input and returns a vector of the same length), which is generally
+true if built-in R functions are used, then all elevations can be used
+as input to calculate all pressures. The equation for pressure satisfies
+this condition, so it can produce the same output as the loop above in a
+single, more efficient step:</p>
+<pre class="r"><code>pressure_estimated &lt;- 101.3*((293.0 - 0.0065*elevs)/293.0)^5.26</code></pre>
+<p>The new <em>pressure_estimated</em> variable has the same number of
+elements as <em>elevs</em> (and every other column in stdatmosphere data
+frame, so many plots could be made).</p>
+<p>One example is shown here, plotted using the techniques from earlier,
+with <code>x = pressure_estimated</code> and
+<code>y = stdatmosphere$pressure_kPa</code>. With the hints given below,
+try to recreate something like this.</p>
+<p><img src="index_files/figure-html/equality-line-1.png" width="60%" /></p>
+<p>The line of equality, on which all points would fall if the
+approximation were perfect has a slope of 1 and an intercept of 0, so is
+drawn on the plot by adding <code>abline(a=0,b=1)</code> after the plot
+command).</p>
+<p>The legend in the plot was added by the intuitive command
+<em>legend</em>, similar to this:</p>
+<pre class="r"><code>legend(&#39;topleft&#39;,c(&#39;Pressure values&#39;,&#39;Line of Equality&#39;), lty=c(NA,1),pch=c(1,NA),bg=&#39;white&#39;)</code></pre>
+<p>This was tricky because of the mix of points and lines for symbols,
+where the line types were specified with a list where the first value
+was <em>NA</em> (meaning <em>not available</em>), and likewise since the
+second legend symbol is only a line, the second symbol was specified as
+<em>NA</em>.</p>
+</div>
+<div id="estimating-a-curve-fit-regression" class="section level1"
+number="8">
+<h1><span class="header-section-number">8</span> Estimating a Curve Fit
+(Regression)</h1>
+<p>Suppose you look at water density and guess that for temperatures
+above 20C it is linearly related to temperature. Here the data for
+temperature (x) and density (y) is assigned:</p>
+<pre class="r"><code>x &lt;- c(20,25,30,40,50,60,70,80,90,100)
+y &lt;- c(998.2,997,995.7,992.2,988,983.2,977.8,971.8,965.3,958.4)</code></pre>
+<p>A linear regression (linear model) is estimated using the <em>lm</em>
+function, and the results retrieved with the <em>summary</em>
+command.</p>
+<pre class="r"><code>linfit &lt;- lm( y ~ x )
+summary(linfit)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = y ~ x)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -2.8479 -1.2266  0.2482  1.6072  2.1709 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 1010.7010     1.4680  688.49  &lt; 2e-16 ***
+## x             -0.4945     0.0235  -21.05 2.73e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.98 on 8 degrees of freedom
+## Multiple R-squared:  0.9823, Adjusted R-squared:   0.98 
+## F-statistic: 442.9 on 1 and 8 DF,  p-value: 2.73e-08</code></pre>
+<p>This returns a R<span class="math inline">\(^2\)</span> of 0.98,
+which would indicate a reasonable fit. The residual standard error (RSE)
+of 1.98 with 8 degrees of freedom (df), can be used to compare different
+methods of fitting the data. Plotting results is always advised, which
+can be done in a simple way as follows (using several techniques from
+above):</p>
+<pre class="r"><code>plot(x, y, xlab=expression(&quot;Temperature, &quot; (degree*C)),
+ylab=expression(&quot;Density,&quot; ~rho~ (kg/m^{3})))
+abline(linfit)
+grid()
+legend(&quot;topright&quot;,legend=c(&quot;data&quot;,&quot;linear fit&quot;),lty=c(NA,1),pch=c(1,NA))
+title(sub = &quot;Figure 3: Water density variation with temperature.&quot;, font.sub = 2, adj = 0) </code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-22-1.png" width="60%" /></p>
+<p>While the R<span class="math inline">\(^2\)</span> value is high, the
+data do not appear linear. If you want to try fitting another curve to
+the points there are many options. You can use a modified version of the
+<code>lm</code> command, such as
+<code>fitlm &lt;- lm(y ~ poly(x, 2, raw=TRUE))</code> to return the
+coefficients of the equation <span
+class="math inline">\(y=c+b*x+a*x^2\)</span>. A more general function is
+the nonlinear least squares solver, <code>nls</code>, which can
+accommodate any equation form:</p>
+<pre class="r"><code>df &lt;- data.frame(x = x, y = y)  # put input into data frame
+fitnls &lt;- nls(y ~ a * x^2 + b * x + c, data = df, start = list(a=0, b=0, c=0))
+print(fitnls)</code></pre>
+<pre><code>## Nonlinear regression model
+##   model: y ~ a * x^2 + b * x + c
+##    data: df
+##          a          b          c 
+## -3.067e-03 -1.341e-01  1.002e+03 
+##  residual sum-of-squares: 0.1734
+## 
+## Number of iterations to convergence: 1 
+## Achieved convergence tolerance: 7.955e-07</code></pre>
+<p>The <code>nls</code> output reports a residual sum of squares (RSS).
+To compare this to the RSE from the linear regression, recall <span
+class="math inline">\(RSS=df*RSE^2\)</span>, so the polynomial fit
+produces an RSS much smaller than the linear regression (<span
+class="math inline">\(RSS=8*1.98^2=31.36\)</span>), indicating a much
+better fit. As always, a plot helps demonstrate the quality of the fit
+to the data. A simple <code>lines(x, predict(fitnls)</code> could add
+this polynomial to the prior plot. Sampling the function at many points
+(here 100) creates a smoother curve.</p>
+<pre class="r"><code>plot(x, y, xlab=expression(&quot;Temperature, &quot; (degree*C)), 
+     ylab=expression(&quot;Density,&quot; ~rho~ (kg/m^{3})))
+manyx &lt;- seq(min(x), max(x), length.out=100)
+lines(manyx, predict(fitnls, list(x = manyx)), lty = 2)
+grid()
+legend(&quot;topright&quot;,legend=c(&quot;data&quot;,&quot;2d polynomial fit&quot;),lty=c(NA,2),pch=c(1,NA))
+title(sub = &quot;Figure 4: Demonstration of a non-linear curve fit.&quot;, font.sub = 2, adj = 0) </code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-24-1.png" width="60%" /></p>
+</div>
+<div id="solving-for-an-equation-parameter-from-lab-observations"
+class="section level1" number="9">
+<h1><span class="header-section-number">9</span> Solving for an equation
+parameter from lab observations</h1>
+<p>A linear regression is a best fit to observations, where the slope
+and intercept of the regression equation are fit to the data so that the
+error (between the regression line and the observed points) is
+minimized. This can be done more generally using optimization in R,
+which can work like Excel’s solver function.</p>
+<p><img src="images/bucket_orifice.jpg" width="40%" style="float:right; padding:10px" /></p>
+<p>Take, for example, lab results for the draining of a container (image
+is from Ahmari and Kabir, Applied Fluid Mechanics Lab Manual, 2019). The
+discharge, <span class="math inline">\(Q\)</span>, is described by:
+<span class="math display">\[Q=C_dA\sqrt{2g \Delta h}\]</span> <span
+class="math inline">\(C_d\)</span> is a coefficient of discharge, which
+accounts for the reduction in flow to the the contraction of the jet and
+the friction as water discharges. This example estimates the value of
+<span class="math inline">\(C_d\)</span> using these lab observations
+for a container with opening diameter, <span class="math inline">\(d =
+10 mm\)</span>:</p>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+h, m
+</th>
+<th style="text-align:right;">
+Q, Liters/s
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0.5
+</td>
+<td style="text-align:right;">
+0.240
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+0.4
+</td>
+<td style="text-align:right;">
+0.213
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+0.187
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:right;">
+0.151
+</td>
+</tr>
+</tbody>
+</table>
+<p>Here the <a
+href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/optimize.html">optimize</a>
+function is used, which is part of the basic R installation.</p>
+<p>Begin by entering the input data, ensuring consistent SI units.</p>
+<pre class="r"><code>h &lt;- c(0.5, 0.4, 0.3, 0.2)                 # in m
+Qobs &lt;- c(0.240, 0.213, 0.187, 0.151)/1000 # convert to m^3/s
+d &lt;- 10/1000                               # convert to m
+A &lt;- pi/4 * d^2                            # m^2
+g &lt;- 9.81</code></pre>
+<p>Next set up the function with the equation describing the theoretical
+flow, <span class="math inline">\(Q_{theor}\)</span> based on the head,
+<span class="math inline">\(h\)</span>.</p>
+<pre class="r"><code># Function to estimate flows, based on observed head differences
+# Uses a Cd value that does not need to be defined yet
+Qtheor &lt;- function(Cd, h) {Cd * A * sqrt(2 * g * h)}</code></pre>
+<p>Now set up a function that describes the error. This example uses the
+sum of the squared errors between observed and theoretical <span
+class="math inline">\(Q\)</span> values.</p>
+<pre class="r"><code># Function to minimize
+SSE &lt;- function(Cd, h, Qobs) { sum((Qobs - Qtheor(Cd, h))^2) }</code></pre>
+<p>Now use the optimize function. The second argument sets the limits on
+<span class="math inline">\(C_d\)</span> values as between 0.1 and 1.0.
+the last two arguments are the data needed by the SSE function. The
+$minimum selects the optimal <span class="math inline">\(C_d\)</span>
+value to display.</p>
+<pre class="r"><code>(Cd_opt &lt;- optimize(SSE, c(0.1, 1.0), h = h, Qobs = Qobs )$minimum)</code></pre>
+<pre><code>## [1] 0.9739836</code></pre>
+<p>The optimal <span class="math inline">\(C_d\)</span> is close to 1.
+It is good practice to plot the estimated vs. theoretical values along
+with a line of equality, similar to above. Theoretical Q values can be
+estimated using the function defined above, such as
+<code>Qtheor_values &lt;- Qtheor(Cd_opt, h)</code>.</p>
+<p><img src="index_files/figure-html/equality-line2-1.png" width="60%" /></p>
+<p>More advanced optimization is available for multiple parameters, a
+few examples of which are in chapter 9 of <a
+href="https://www.engr.scu.edu/~emaurer/hydr-watres-book/">Hydraulics
+and Water Resources: Examples Using R</a>.</p>
+</div>
+<div id="quitting-an-rstudio-session" class="section level1"
+number="10">
+<h1><span class="header-section-number">10</span> Quitting an RStudio
+session</h1>
+<p>When you quit from RStudio, you have the option to save your
+workspace (by saving an image to a file called <em>.Rdata</em> in your
+working directory), which can be restored next time you open RStudio. It
+should also prompt you to save your R scripts, which you should do.</p>
+</div>
+<div id="references" class="section level1" number="11">
+<h1><span class="header-section-number">11</span> References</h1>
+<p>Allen, R. G., Pereira, L. S., Raes, D., and Smith, M. (1998). “Crop
+evapotranspiration: Guidelines for computing crop requirements.”
+Irrigation and Drainage Paper No.56, FAO, Rome, Italy.</p>
+<p>Cleveland, T.G., ‘Fluid Mechanics Computations in R: A Toolkit to
+Accompany CE 3305’, Texas Tech University (2018).</p>
+<p>Lovelace, Robin, and James Cheshire. ‘Introduction to Visualising
+Spatial Data in R’. Comprehensive R Archive Network, no. 03 (2014).</p>
+<p>Stauffer, R., J. Chimiak-Opoka, L.M. Rodríguez-R, T. Simon, A.
+Zeileis, Introduction to Programming with R, Version updated:
+2021-06-01, <a
+href="https://discdown.org/rprogramming">https://discdown.org/rprogramming</a></p>
+</div>
+<div id="appendix-1-installing-packages-on-engineering-computers"
+class="section level1 unnumbered">
+<h1 class="unnumbered">Appendix 1 – Installing Packages on Engineering
+Computers</h1>
+<p><strong>NEVER use <em>install.packages</em> in a script. Only use the
+console or RStudio’s Packages tab</strong></p>
+<p>To test whether a package is installed, try to load it using
+<em>library</em>. For example, to test if the package <em>readxl</em>
+exists, <strong>open RStudio</strong> and in the pane that has the
+command console, at the “&gt;” prompt type library(readxl) and hit
+Enter. If there is no output from R, this is good news: it means that
+the library has already been installed on your computer. <strong>Once a
+package is installed on a computer (or as a user in the engineering lab)
+it does not need to be installed again.</strong></p>
+<p>If there is error message, it needs to be installed using
+<em>install.packages</em>. For example on a personal computer (but not
+the networked ECC computers) you would type
+<em>install.packages(“readxl”)</em>, and then the
+<em>library(readxl)</em> command would work and the functions in the
+package would be available. The package will download from CRAN (the
+Comprehensive R Archive Network); if you are prompted to select a
+‘mirror’, select one that is close to your home. <strong>To do this on a
+networked system like in the lab, you first need to set up a few things,
+as follows.</strong></p>
+<p>On networked drives, R will look for certain places where it can
+download libraries and packages. R can work with drives that start with
+a letter (such as Z:\) but cannot work with network addresses (like
+\\machine\…). On the engineering lab computers, Z:\ and
+\\samba1\username are equivalent, so you just need to tell Windows and R
+that these are the same. R looks for certain locations based on
+something called <em>environment variables</em>, so you have to set
+that.</p>
+<p>In Windows, click the search button and look for Control Panel.</p>
+<p><img src="images/aPicture1.png" /></p>
+<p>On the control panel, search for environment variables:</p>
+<p><img src="images/aPicture2.png" /></p>
+<p>Click the “Edit the System Variables for your account.”</p>
+<p>In the top window for <em>User Variables</em>, click
+<strong>New</strong>.</p>
+<p><img src="images/aPicture3.png" /></p>
+<p>Add the following name and value:</p>
+<ul>
+<li>Variable name: R_LIBS_USER</li>
+<li>Variable value: Z:\R_packages</li>
+</ul>
+<p>Click OK. Now it should appear in your list of user environmental
+variables.</p>
+<p><img src="images/aPicture4.png" /></p>
+<p>R creates the directory defined by Value and installs packages there.
+You may use another path if you prefer – R will just install packages
+where you define.</p>
+<p>Click OK to save the variable and OK again to exit the environment
+variable window. You will need to <strong>log out and log back in
+again</strong> to activate this variable.</p>
+<p>You can now test to see if you can install a library, and hopefully
+will see a “success” message, something like this: <img
+src="images/aPicture5.png" /></p>
+<p>You’ll see when one package needs another package to work (a
+‘dependency’) it automatically looks for it and installs it if needed.
+Periodically you will receive errors because a package needs updating.
+Since you can only install or update packages in the library location
+you just set, you can specify to only update packages in that library
+with a command like:</p>
+<pre class="r"><code>.libPaths() #returns all of your current package locations
+update.packages(lib.loc = &quot;Z:/R_packages&quot;) #specify the one you created</code></pre>
+</div>
+<div id="appendix-2-exporting-your-r-script-and-output"
+class="section level1 unnumbered">
+<h1 class="unnumbered">Appendix 2 – Exporting your R script and
+output</h1>
+<p>Before this can be done on ECC computers, you must create a user
+environment variable for R following the steps in Appendix 1. You only
+need to do that the first time you install an R package. <strong>If you
+haven’t already, do that first, then return to this</strong>.</p>
+<p>To ensure a proper header appears with your name, the lab title, and
+the date, add something like this to the very top of your R script:</p>
+<pre class="r"><code>#&#39; ---
+#&#39; title: &quot;LAB 1 - calculating friction factors&quot;
+#&#39; author: &quot;Fulano Zutano&quot;
+#&#39; date: &quot;February 8, 2019&quot;
+#&#39; ---</code></pre>
+<p>The <code>date:</code> line can be customized to insert the current
+date as described in the <a
+href="https://bookdown.org/yihui/rmarkdown-cookbook/update-date.html">Bookdown
+documentation</a>. Each of these lines begins with #’ (with the single
+quote). That tells the document compiler in R (e.g., knitr) it is a
+special (“markdown”) comment, which can create a nice document. Place
+lines like this (starting with #’) anywhere in a document to add text
+before a chunk of code, for example. Add headers with #’ # for h1, #’ ##
+for h2, etc. A line starting with #’ * creates a bulleted list (add 4
+more spaces per level of indentation). Add hyperlinks with #’ <a
+href="http://link.html">text to appear</a>. More details are <a
+href="https://rmarkdown.rstudio.com/articles_report_from_r_script.html">here</a>
+and <a
+href="https://rmarkdown.rstudio.com/articles_intro.html">here</a>.</p>
+<p>An excellent approach to creating a final document is to write
+everything as R markdown (saved as “.Rmd” instead of “.R”) and then
+compile or knit the document, but that is beyond the scope of what we’ll
+do here. You can read about creating a Rmd file in many references,
+including those above and the chapter on <a
+href="https://discdown.org/rprogramming/reporting.html"><strong>Reporting</strong>
+in Stauffer et al.</a> For now, just add the header information above to
+your “.R” script and be sure the code is neat and clearly documented
+(described at the beginning of this document). A simple example is
+available <a href="files/sample.R">here</a>. Refer to that to see how
+blank lines, documentation, and occasional lines beginning with #’ can
+help produce better output.</p>
+<p><img src="images/bPicture3.png" /></p>
+<p>In RStudio, select File-&gt;Compile Report to do just that.</p>
+<p><img src="images/bPicture4.png" /></p>
+<p>The simplest and recommended approach is to select “HTML” format.</p>
+<p><img src="images/bPicture2.png" /></p>
+<p>If this is the first time you have done this, you may see this notice
+about installing packages. Say Yes and it will install them.</p>
+<p><img src="images/bPicture1.png" /></p>
+<p>A window should open in RStudio showing the compiled HTML. On that
+window click “Open in Browser” and from your browser you can print the
+page to a pdf file.</p>
+<p><img src="images/bPicture6.png" /></p>
+<p>The final report should look professional and neat.</p>
+<p><img src="images/bPicture5.png" /></p>
+</div>
+<div id="appendix-3-fixing-common-problems"
+class="section level1 unnumbered">
+<h1 class="unnumbered">Appendix 3 – Fixing common problems</h1>
+<div id="failure-to-produce-htmlpdf-output-on-ecc-lab-computers-windows"
+class="section level2 unnumbered">
+<h2 class="unnumbered">Failure to produce html/pdf output on ECC lab
+computers (Windows)</h2>
+<p>Sometimes on networked computers (like the ECC lab) R/RStudio will
+fail to create an html version of your script and output when using the
+“compile document” or “knit document” menu item. If the error message
+says something about “<strong>pandoc</strong>” there is a simple fix
+that works in many cases. The issue is often related to saving the R
+project to your Desktop or My Documents location. That is a fine place
+to save the files, but how you access them makes a difference.</p>
+<p>For example, if you click on a folder on the desktop:</p>
+<p><img src="images/cPicture1.png" /></p>
+<p>Then navigate to a Rproj file, you can double-click it and it will
+open in RStudio. Note that the path to the project starts with
+“<strong>//</strong>” indicating a network drive. While
+<strong>pandoc</strong> can work with these it doesn’t do so easily. If
+you run “compile document” or “knit document” on this it will likely
+fail.</p>
+<p><img src="images/cPicture2.png" /></p>
+<p>A simple fix is to open Windows Explorer and navigate to
+<strong>Z:\dcengr\</strong> and then to your folder with the R
+project.</p>
+<p>Double-clicking on the Rproj file from here opens it in RStudio, as
+before notice in RStudio the path to the project now starts with a
+letter (<strong>Z:/</strong>). Now the command should work and produce
+html output.</p>
+<p><img src="images/cPicture3.png" /></p>
+<p>Another fix is to just work from a USB drive, which will always have
+a letter assigned to it.</p>
+</div>
+<div id="packages-are-incompatible-with-current-r-version"
+class="section level2 unnumbered">
+<h2 class="unnumbered">Packages are incompatible with current R
+version</h2>
+<p>As packages evolve or R is updated, packages sometimes need to be
+updated. If you receive a warning indicating this, in RStudio simply go
+to the packages tab in the lower right panel, click update, and select
+the packages you need to update.</p>
+<p><img src="images/cPicture4.png" /></p>
+</div>
+<div
+id="compiling-a-document-produces-an-error-that-package-needs-to-be-reinstalled"
+class="section level2 unnumbered">
+<h2 class="unnumbered">Compiling a Document produces an error that
+package needs to be reinstalled</h2>
+<p><img src="images/cPicture5.png" /></p>
+<p>At the console, type commands to remove and re-install the package.
+This example is for the <em>htmltools</em> package, which was the source
+of the error above.</p>
+<p><img src="images/cPicture6.png" /></p>
+</div>
+</div>
+
+&nbsp;
+&nbsp;
+
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+&nbsp;
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "site_libs/mathjax-local/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
